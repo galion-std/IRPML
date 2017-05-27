@@ -6,7 +6,7 @@ joint angle trajectories of a manipulator robot/ biped robot:
 * A Path Integrals² algorithm implemented under "PI_2_std.m".
 # Teaching Box
 The code under "CoBrasTeachingBox.m" implement a GUI interface permitting the connection to an Arduino driven Robot Arm 
-and the data gathering of the learned tasks.
+and the data gathering of the demonstrated tasks.
 # Licensing 
 No sort of licensing is currently available for the current repository.
 For additional information please contact the owner.
