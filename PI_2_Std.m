@@ -6,7 +6,7 @@ close all
 K=10; %number of samples of the set of params
 N=20; % sampling time in traj 
 h=0.001; %Elitness Parameter %hyperparameter
-nbr_iter=20;
+nbr_iter=100;
 nbr_RBS=80;
 alfa=0.001;
 
