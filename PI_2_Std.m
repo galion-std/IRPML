@@ -1,15 +1,15 @@
 clc
 clear all
 close all
-
+tic;
 %% Initialisation
 K=10; %number of samples of the set of params
 N=20; % sampling time in traj 
 h=0.001; %Elitness Parameter %hyperparameter
-nbr_iter=100;
+nbr_iter=30;
 nbr_RBS=80;
-alfa=0.001;
-
+alfa=1e-7;
+%%%% working params 30=iter alfa=1e-7
 %% Reference trajectory BiPed
 ref_traj=Trefs();
 s=size(ref_traj);
@@ -31,6 +31,7 @@ Sigma=diag(V);
 % with different teta vectors
 
 for iter=1:nbr_iter
+    iter
     if iter ~=1
         mu=mu_new;
     end
@@ -59,8 +60,8 @@ for i=1:s(2)
         S(i,k)=som;
         
 %% calculating probability
-        %if k==1
-            alpha(b)=-0.001; % TODO
+%         if k==1
+             alpha(b)=-0.01; % TODO -0.001 working
 %         else
 %         alpha(b) = -h*(S(i,k)-min(S(i,1:k)))/...
 %                max(S(i,1:k))-min(S(i,1:k));
@@ -97,6 +98,7 @@ for m=1:nbr_RBS
 end
 
 end
+
 %% Plotting learned trajectory
 figure
 qu=num2str(RL_q_ref);
@@ -110,4 +112,5 @@ plot(1:s(2),ref_traj(RL_q_ref,:,2),'-')
 legend('Learned','Reference')
 title (strcat('Reference vs Learned',qu))
 
-
+%% Execution time
+time_elapsed=toc
