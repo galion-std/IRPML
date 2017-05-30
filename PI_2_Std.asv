@@ -97,16 +97,16 @@ for m=1:nbr_RBS
 end
 
 end
-%% Plotting learned trajectory
+%% Plotting 
 figure
 qu=num2str(RL_q_ref);
-teta_RL = mvnrnd(mu_new,Sigma); 
-T_RL=exepolicy_RBF(teta_RL,ref_traj(RL_q_ref,:,:),s(2),alfa);
+teta_RL = mvnrnd(mu_new,sigma_new); 
+T_RL=exepolicy_RBF(teta_RL,Tref(RL_q_ref,:,:),s(2),alpha);
 plot(T_RL,'+')
 hold on
-plot(1:s(2),ref_traj(RL_q_ref,:,1),'-') %% TOCHECK 
+plot(1:s(2),Tref(RL_q_ref,:,1),'-') %% TOCHECK 
 hold on
-plot(1:s(2),ref_traj(RL_q_ref,:,2),'-')
+plot(1:s(2),Tref(RL_q_ref,:,2),'-')
 legend('Learned','Reference')
 title (strcat('Reference vs Learned',qu))
 
