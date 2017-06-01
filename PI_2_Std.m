@@ -7,8 +7,8 @@ K=10; %number of samples of the set of params
 N=20; % sampling time in traj 
 h=0.001; %Elitness Parameter %hyperparameter
 nbr_iter=30;
-nbr_RBS=80;
-alfa=1e-7;
+nbr_RBS=10;
+alfa=1e-5;
 %%%% working params 30=iter alfa=1e-7
 %% Reference trajectory BiPed
 ref_traj=Trefs();
@@ -54,14 +54,14 @@ for i=1:s(2)
         % J needs be evaluated at each time step i
         som=0;
         for m=i:s(2)
-            som=som+J(ref_traj(RL_q_ref,:,:),T(k,:),m);
+            som=som+(J2(ref_traj(RL_q_ref,:,:),T(k,:),m));
         end
         %S(i,k)=sum(J(T(k,:),i:N));%%TODO Works it?
         S(i,k)=som;
         
 %% calculating probability
 %         if k==1
-             alpha(b)=-0.01; % TODO -0.001 working
+             alpha=-1e-3; % TODO -0.001 working
 %         else
 %         alpha(b) = -h*(S(i,k)-min(S(i,1:k)))/...
 %                max(S(i,1:k))-min(S(i,1:k));
@@ -69,9 +69,9 @@ for i=1:s(2)
 %        end
         som=0;
         for ind=1:K
-            som=som+exp(alpha(b)*S(i,ind));
+            som=som+exp(alpha*S(i,ind));
         end
-        P(i,k)=exp(alpha(b)*S(i,k))/som;
+        P(i,k)=exp(alpha*S(i,k))/som;
         b=b+1;
     end
 %% Updating Parameters

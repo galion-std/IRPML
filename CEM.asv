@@ -7,10 +7,10 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 nbr_RBS=80;        % Radial basis functions
 %RL_q_ref=4;       % Reference Joint Number
-nbr_iter=50;       % Algorithm iterations count
+nbr_iter=100;       % Algorithm iterations count
 Ke=10;             % Elitness parameter
 K=20;              % Smaples count
-alpha=1e-6 ;       % RBF coefficient 
+alpha=1e-5 ;       % RBF coefficient 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %filename='Convergence.gif';
@@ -45,7 +45,7 @@ end
 %% Plotting sampled tajectories
 
 t=1:s(2);
-figure(1);
+figure(2)
 hold off
 for i=1:20
     plot(t,T(i,:)); 
@@ -58,7 +58,7 @@ im{idx} = frame2im(frame);
 %% Iterations 
 cost=zeros(K,1);
 for k=1:K
-    cost(k)=log(J(Tref(RL_q_ref,:,:),T(k,:),teta(k,nbr_RBS+1:nbr_param),1));
+    cost(k)=J(Tref(RL_q_ref,:,:),T(k,:),teta(k,nbr_RBS:nbr_param),1);
 end
 
 %% sorting and weighing 
@@ -120,6 +120,5 @@ hold on
 plot(1:s(2),Tref(RL_q_ref,:,2),'-')
 legend('Learned','Reference')
 title (strcat('Test Reference vs Learned',qu))
-figure;
-plot(T_RL,'+')
+
 
