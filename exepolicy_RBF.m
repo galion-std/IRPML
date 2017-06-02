@@ -32,7 +32,7 @@ cen(t)=ref(1,t,1)+ref(1,t,2);
 cen(t)=cen(t)*0.5;
  end
 for t=1:traj_step
-    traj(t)=traj(t)+cen(t);
+    traj(t)=traj(t)+(cen(t));
 end
 else 
     for t=1:traj_step

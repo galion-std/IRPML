@@ -3,10 +3,10 @@ clear all
 close all
 tic;
 %% Initialisation
-K=10; %number of samples of the set of params
+K=20; %number of samples of the set of params
 N=20; % sampling time in traj 
-h=0.01;%1e+1; %Elitness Parameter %hyperparameter
-nbr_iter=30;
+h=0.001;%1e+1; %Elitness Parameter %hyperparameter
+nbr_iter=50;
 nbr_RBS=20;
 alfa=1e-4;
 %%%% working params 30=iter alfa=1e-7
@@ -26,7 +26,7 @@ qu=num2str(RL_q_ref);
 filename=strcat('PI_Convergence_q_',qu,'.gif');  
 mu= zeros(nbr_RBS,1);
 V= rand (1,nbr_RBS);  
-Sigma=ones(nbr_RBS)+diag(ones(1,nbr_RBS));%TOTRY
+Sigma=diag(V);%ones(nbr_RBS);%TOTRY
 
 %% PI² Algorithm
 % Generate K sample of the trajectory
@@ -36,6 +36,7 @@ for iter=1:nbr_iter
     iter
     if iter ~=1
         mu=mu_new;
+        Sigma=Sigma_new;
     end
 %% Sampling Trajectories
 T=zeros(K,s(2));
@@ -67,19 +68,19 @@ for i=1:s(2)
         % J needs be evaluated at each time step i
         som=0;
         for m=i:s(2)
-            som=som+log(J2(ref_traj(RL_q_ref,:,:),T(k,:),m));
+            som=som+(J2(ref_traj(RL_q_ref,:,:),T(k,:),m));
         end
         %S(i,k)=sum(J(T(k,:),i:N));%%TODO Works it?
         S(i,k)=som;
         
 %% calculating probability
-        if k==1
-             alpha=-h; % TODO -0.001 working
-        else
-        alpha = -h*(S(i,k)-min(S(i,1:k)))/...
-               max(S(i,1:k));%-min(S(i,1:k));
-         
-       end
+%         if k==1
+              alpha=-h; % TODO -0.001 working
+%         else
+%         alpha = -h*(S(i,k)-min(S(i,1:k)))/...
+%                max(S(i,1:k));%-min(S(i,1:k));
+%          
+%        end
         som=0;
         for ind=1:K
             som=som+exp(alpha*S(i,ind));
@@ -95,7 +96,15 @@ for i=1:s(2)
          end
        teta_new(i,m)=som;
      end
-
+     
+     sigma_newi=zeros(s(2),nbr_RBS,nbr_RBS);
+     sigma_new=zeros(nbr_RBS);
+for k=1:K
+    sigma_new=sigma_new + ...
+        (P(i,k).*((teta(k,:)'-mu(:)))*... %TOASK
+           (teta(k,:)'-mu(:))');
+end
+sigma_newi(i,:,:)=sigma_new;
 end
 %% Temporal averaging 
 mu_new=zeros(nbr_RBS,1);
@@ -109,6 +118,17 @@ for m=1:nbr_RBS
         end
     mu_new(m)=Nom/Den;
 end
+      %%%% %%%% %%%
+
+    Nom=0;
+    Den=0;
+        for i=1:s(2)
+            Nom=Nom+(s(2)-i).*sigma_newi(i,:,:);
+            Den=Den+(s(2)-i);
+        end
+    Sigma_new1=Nom/Den;
+    Sigma_new(:,:)=Sigma_new1(1,:,:);
+
 
 end
 %% Generating the animated gif of the converging trajectories
