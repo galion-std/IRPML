@@ -5,10 +5,10 @@ tic;
 %% Initialisation
 K=10; %number of samples of the set of params
 N=20; % sampling time in traj 
-h=0.001; %Elitness Parameter %hyperparameter
+h=0.01;%1e+1; %Elitness Parameter %hyperparameter
 nbr_iter=30;
 nbr_RBS=20;
-alfa=1e-5;
+alfa=1e-4;
 %%%% working params 30=iter alfa=1e-7
 %% Reference trajectory BiPed
 ref_traj=Trefs();
@@ -22,9 +22,11 @@ RL_q_ref=1;
 % mu Mean value
 % sigma_PI is the covariance matrix
 
+qu=num2str(RL_q_ref);
+filename=strcat('PI_Convergence_q_',qu,'.gif');  
 mu= zeros(nbr_RBS,1);
 V= rand (1,nbr_RBS);  
-Sigma=diag(V);
+Sigma=ones(nbr_RBS);%TOTRY
 
 %% PI² Algorithm
 % Generate K sample of the trajectory
@@ -42,6 +44,17 @@ for k=1:K
     teta(k,:)=mvnrnd(mu,Sigma);
     T(k,:)=exepolicy_RBF(teta(k,:),ref_traj(RL_q_ref,:,:),s(2),alfa);
 end
+%% Plotting trajs:
+t=1:s(2);
+figure(1);
+hold off
+for i=1:K
+    plot(t,T(i,:)); 
+    hold on;
+end
+idx=iter;
+frame = getframe(gcf);
+im{idx} = frame2im(frame);
 
 %%  Iterations Core
 teta_new=zeros(s(2),nbr_RBS);
@@ -54,14 +67,14 @@ for i=1:s(2)
         % J needs be evaluated at each time step i
         som=0;
         for m=i:s(2)
-            som=som+(J2(ref_traj(RL_q_ref,:,:),T(k,:),m));
+            som=som+log(J2(ref_traj(RL_q_ref,:,:),T(k,:),m));
         end
         %S(i,k)=sum(J(T(k,:),i:N));%%TODO Works it?
         S(i,k)=som;
         
 %% calculating probability
         if k==1
-             alpha=-1e-3; % TODO -0.001 working
+             alpha=-h; % TODO -0.001 working
         else
         alpha = -h*(S(i,k)-min(S(i,1:k)))/...
                max(S(i,1:k));%-min(S(i,1:k));
@@ -91,14 +104,22 @@ for m=1:nbr_RBS
     Nom=0;
     Den=0;
         for i=1:s(2)
-            Nom=Nom+(s(2)-i).*teta_new(i,m);
+            Nom=Nom+(s(2)-i)*teta_new(i,m);
             Den=Den+(s(2)-i);
         end
     mu_new(m)=Nom/Den;
 end
 
 end
-
+%% Generating the animated gif of the converging trajectories
+for idx=1:nbr_iter
+    [A,map] = rgb2ind(im{idx},256);
+if idx == 1
+    imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
+else
+    imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',1);
+end
+end
 %% Plotting learned trajectory
 figure
 qu=num2str(RL_q_ref);

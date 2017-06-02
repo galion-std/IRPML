@@ -47,7 +47,7 @@ end
 t=1:s(2);
 figure(1);
 hold off
-for i=1:20
+for i=1:K
     plot(t,T(i,:)); 
     hold on;
 end
