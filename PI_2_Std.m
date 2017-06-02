@@ -7,7 +7,7 @@ K=10; %number of samples of the set of params
 N=20; % sampling time in traj 
 h=0.001; %Elitness Parameter %hyperparameter
 nbr_iter=30;
-nbr_RBS=10;
+nbr_RBS=20;
 alfa=1e-5;
 %%%% working params 30=iter alfa=1e-7
 %% Reference trajectory BiPed
@@ -60,13 +60,13 @@ for i=1:s(2)
         S(i,k)=som;
         
 %% calculating probability
-%         if k==1
+        if k==1
              alpha=-1e-3; % TODO -0.001 working
-%         else
-%         alpha(b) = -h*(S(i,k)-min(S(i,1:k)))/...
-%                max(S(i,1:k))-min(S(i,1:k));
-%          
-%        end
+        else
+        alpha = -h*(S(i,k)-min(S(i,1:k)))/...
+               max(S(i,1:k));%-min(S(i,1:k));
+         
+       end
         som=0;
         for ind=1:K
             som=som+exp(alpha*S(i,ind));
