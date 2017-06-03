@@ -7,11 +7,10 @@ Den=zeros(traj_step,1);
 traj=zeros(traj_step,1);
 s=size(w);
 
-%t_center=ceil(traj_step/s(2));
 t_center=traj_step/s(2);
 %keyboard
 for t=1:traj_step
-    Den(t)=0;% LOL
+    Den(t)=0;
     for t_ind=1:t_center:traj_step
      Den(t)=Den(t)+exp(-alpha*(t-t_ind)^2);
     end
@@ -22,7 +21,7 @@ traj(t)= traj(t)+w(w_ind)*exp(-alpha*(t-t_ind)^2)/Den(t);
 w_ind=w_ind+1;
     end
 end
-%% Centering !!
+%% Centering
 % keyboard
 cen=zeros(1,traj_step);
 z=size(ref);

@@ -18,7 +18,6 @@ for m=ts:v(2)
     end
 end
 res=cou; % convexe form 
-%res=exp(sqrt(cou))^2;
 %keyboard
 end
 

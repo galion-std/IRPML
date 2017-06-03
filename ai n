@@ -1,0 +1,78 @@
+[33mcommit d2bc1a871d3702ecbc6c2064c51a6a00eb045846[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Fri Jun 2 19:11:51 2017 +0100
+
+    PI unable to converge PICMA implemented Exponential convergence
+
+[33mcommit 28c2c3480a466f92fa2ace3dc869e1e006595c2f[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Fri Jun 2 17:02:20 2017 +0100
+
+    PI with gif generation non converging results
+
+[33mcommit bc60b10918736403a742d2a66e1397d74518c720[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Fri Jun 2 15:37:18 2017 +0100
+
+    PI converges with zero distance after multiple runs
+
+[33mcommit 70991927a170e087c0ea997daf5b07e3456b941f[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Thu Jun 1 21:06:49 2017 +0100
+
+    CEM with Q matrix factors
+
+[33mcommit 943c1c89a5441f09add8a8003b118401cf1d7784[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Wed May 31 00:31:53 2017 +0100
+
+    Working PI unconsistent results
+
+[33mcommit 0f50fbadd933025a3298fe7e823c3943fe4b1a94[m
+Merge: 464124b 204544c
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Tue May 30 16:38:33 2017 +0100
+
+    Merge branch 'master' of https://github.com/galion-std/IRPML
+
+[33mcommit 464124b82e784870d32c252fbc569ca552ae96db[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Tue May 30 16:36:17 2017 +0100
+
+    The PI running but not converging
+
+[33mcommit b497db2d0c1624d02a8b2344a93881931f32cc73[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Tue May 30 16:06:34 2017 +0100
+
+    The PI running but not converging
+
+[33mcommit 204544cec23234126fa60ac59b08dd7650af86d7[m
+Author: Yasser <my_mm20-cr9-rk8@hotmail.com>
+Date:   Sat May 27 14:53:26 2017 +0200
+
+    Delete ~$nération de Trajectoire via Modélisation Cinématique d.docx
+
+[33mcommit 2e5248f01fb9a3c6d68cd53b8760397b01ef0ae7[m
+Author: Yasser <my_mm20-cr9-rk8@hotmail.com>
+Date:   Sat May 27 14:40:50 2017 +0200
+
+    Update README.md
+
+[33mcommit eb3a72fd01bef0a901fcfdd316551a230b894e1a[m
+Author: Yasser <my_mm20-cr9-rk8@hotmail.com>
+Date:   Sat May 27 14:39:03 2017 +0200
+
+    Create README.md
+
+[33mcommit 2440e0e9becc01a33a54080dc4a6dcb472d6dfe6[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Sat May 27 13:17:47 2017 +0100
+
+    adding Arduino and matlab teaching interfacing
+
+[33mcommit 21433bef441502ae8bf191aaf0e60e53f77506a1[m
+Author: Yeser <yasser.mz@outlook.com>
+Date:   Sat May 13 20:37:46 2017 +0100
+
+    first one

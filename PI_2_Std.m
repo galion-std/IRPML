@@ -3,30 +3,22 @@ clear all
 close all
 tic;
 %% Initialisation
-K=20; %number of samples of the set of params
-N=20; % sampling time in traj 
-h=10;%1e+1; %Elitness Parameter %hyperparameter
-nbr_iter=5;
-nbr_RBS=20;
-alfa=1e-5;
-%%%% working params 30=iter alfa=1e-7
+K=20;            %number of samples of the set of params
+h=10;            %Elitness Parameter %hyperparameter
+nbr_iter=5;      %Iteration count
+nbr_RBS=20;      %RBS function count
+alfa=1e-4;       %RBS Fitting param
 %% Reference trajectory BiPed
 ref_traj=Trefs();
 s=size(ref_traj);
 RL_q_ref=1;
 
 %% PDF For Gaussian Distro 
-%!! Multivariate distribution instead
-%G = makedist('Normal','mu',mu,'sigma',sigma); 
-% Sigma standard variation
-% mu Mean value
-% sigma_PI is the covariance matrix
-
 qu=num2str(RL_q_ref);
 filename=strcat('PI_Convergence_q_',qu,'.gif');  
 mu= zeros(nbr_RBS,1);
 V= rand (1,nbr_RBS);  
-Sigma=diag(V);%ones(nbr_RBS);%TOTRY
+Sigma=diag(V);
 
 %% PI² Algorithm
 % Generate K sample of the trajectory
@@ -70,15 +62,14 @@ for i=1:s(2)
         for m=i:s(2)
             som=som+(J2(ref_traj(RL_q_ref,:,:),T(k,:),m));
         end
-        %S(i,k)=sum(J(T(k,:),i:N));%%TODO Works it?
         S(i,k)=som;
         
 %% calculating probability
         if k==1
-              alpha=-h; % TODO -0.001 working
+              alpha=-h; 
         else
         alpha = -h*(S(i,k)-min(S(i,1:k)))/...
-               max(S(i,1:k));%-min(S(i,1:k));
+               max(S(i,1:k));
          
        end
         som=0;

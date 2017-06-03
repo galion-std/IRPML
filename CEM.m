@@ -5,15 +5,13 @@ close all
 %%%%%%%%%%%%%%%%%%%%
 % Tuning Params
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-nbr_RBS=80;        % Radial basis functions
+nbr_RBS=5;        % Radial basis functions
 %RL_q_ref=4;       % Reference Joint Number
-nbr_iter=50;       % Algorithm iterations count
-Ke=10;             % Elitness parameter
+nbr_iter=25;       % Algorithm iterations count
+Ke=5;              % Elitness parameter
 K=20;              % Smaples count
-alpha=1e-6 ;       % RBF coefficient 
+alpha=1e-4 ;       % RBF coefficient 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%filename='Convergence.gif';
 
 %% Reference Traj BiPed
 Tref=Trefs();
@@ -58,7 +56,7 @@ im{idx} = frame2im(frame);
 %% Iterations 
 cost=zeros(K,1);
 for k=1:K
-    cost(k)=log(J(Tref(RL_q_ref,:,:),T(k,:),teta(k,nbr_RBS+1:nbr_param),1));
+    cost(k)=(J(Tref(RL_q_ref,:,:),T(k,:),teta(k,nbr_RBS+1:nbr_param),1));
 end
 
 %% sorting and weighing 
@@ -80,7 +78,7 @@ end
 %% Updating Sigma
 sigma_new=zeros(nbr_param);
 for k=1:K
-    sigma_new=sigma_new + (p(k).*(teta(k,:)'-mu(:)))*... %TOASK
+    sigma_new=sigma_new + (p(k).*(teta(k,:)'-mu(:)))*... 
            (teta(k,:)'-mu(:))';
 end
 end
@@ -102,7 +100,7 @@ teta_RL = mvnrnd(mu_new,sigma_new);
 T_RL=exepolicy_RBF(teta_RL(1:nbr_RBS),Tref(RL_q_ref,:,:),s(2),alpha);
 plot(T_RL,'+')
 hold on
-plot(1:s(2),Tref(RL_q_ref,:,1),'-') %% TOCHECK 
+plot(1:s(2),Tref(RL_q_ref,:,1),'-')  
 hold on
 plot(1:s(2),Tref(RL_q_ref,:,2),'-')
 legend('Learned','Reference')
@@ -115,7 +113,7 @@ teta_RL = mvnrnd(mu_new,sigma_new);
 T_RL=decode_RBF(teta_RL(1:nbr_RBS),s(2),alpha);
 plot(T_RL,'+')
 hold on
-plot(1:s(2),Tref(RL_q_ref,:,1),'-') %% TOCHECK 
+plot(1:s(2),Tref(RL_q_ref,:,1),'-')  
 hold on
 plot(1:s(2),Tref(RL_q_ref,:,2),'-')
 legend('Learned','Reference')
