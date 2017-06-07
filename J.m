@@ -4,20 +4,20 @@ function [ res ] = J(Tref, T,coe,ts )
 
 q(:)=T(:);
 w=size(Tref);
-for g=1:w(3)
-qref(:,g)=Tref(1,:,g);
-end
-
+% for g=1:w(3)
+% qref(:,g)=Tref(1,:,g);
+% end
+qref(:)=Tref(:);
 cou=0;
 res=0;
 %keyboard
 v=size(q);
 for m=ts:v(2)
-    for r=1:w(3)
-    cou=cou+coe(m)*(q(m)-qref(m,r))^2;
-    end
+    
+    cou=cou+1*(q(m)-qref(m))^2;
+    
 end
-res=abs(cou); % convexe form 
+res=(cou); % convexe form 
 %res=(sqrt(abs(cou)));
 %keyboard
 end

@@ -7,9 +7,9 @@ K=20;            %number of samples of the set of params
 h=10;            %Eliteness Parameter %hyperparameter
 nbr_iter=5;      %Iteration count
 nbr_RBS=20;      %RBS function count
-alfa=1;       %RBS Fitting param
+alfa=1e-4;       %RBS Fitting param
 learn=1;         %Choice biped/PUMA (1/2)
-%%%%20,10,5,20,e-4,1
+%%
 %% Reference Trajectories
 if learn==1
     ref_traj=Trefs();
@@ -42,7 +42,7 @@ T=zeros(K,s(2));
 teta=zeros(K,nbr_RBS);
 for k=1:K 
     teta(k,:)=mvnrnd(mu,Sigma);
-    T(k,:)=exepolicy_RBF(teta(k,:),ref_traj(RL_q_ref,:,1),s(2),alfa);
+    T(k,:)=exepolicy_RBF(teta(k,:),ref_traj(RL_q_ref,:,:),s(2),alfa);
 end
 %% Plotting trajs:
 t=1:s(2);
@@ -72,13 +72,13 @@ for i=1:s(2)
         S(i,k)=som;
         
 %% calculating probability
-        if k==1
+%         if k==1
               alpha=-h; 
 %         else
 %         alpha = -h*(S(i,k)-min(S(i,1:k)))/...
 %                max(S(i,1:k));
 %          
-       end
+%        end
         som=0;
         for ind=1:K
             som=som+exp(alpha*S(i,ind));
