@@ -56,10 +56,11 @@ hold off
 for i=1:K
     plot(t,T(i,:)); 
     iteration=num2str(iter);
-    title(strcat('Iteration N°',iteration));
+    demo=num2str(RL_q_dem);
+    title(strcat('Iteration N°',iteration,', Demo N°',demo));
     hold on;
 end
-idx=iter;
+idx=iter+nbr_iter*(-1+RL_q_dem);
 frame = getframe(gcf);
 im{idx} = frame2im(frame);
 
@@ -93,15 +94,7 @@ for k=1:K
 end
 end
 
-%% Generating the animated gif of the converging trajectories
-for idx=1:nbr_iter
-    [A,map] = rgb2ind(im{idx},256);
-if idx == 1
-    imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
-else
-    imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',1);
-end
-end
+
 end
 %% Learned distribution
 figure
@@ -115,7 +108,17 @@ plot(1:s(2),Tref(RL_q_ref,:,f),'-')
 end
 legend('Learned','Reference')
 title (strcat('Reference vs Learned',qu))
+%% Generating the animated gif of the converging trajectories
+for idx=1:nbr_iter*s(3)
+    [A,map] = rgb2ind(im{idx},256);
+if idx == 1
+    imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
+else
+    imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',1);
 end
+end
+end
+
 %% testing
 % figure
 % qu=num2str(RL_q_ref);

@@ -5,7 +5,7 @@ mdl_puma560
 p560 
 %% Generating Examples
 q=zeros(4,382,6);
-c = randi([1 4],1,4);
+c = [1 2 3 4]; %randi([1 4],1,4);
 for n=1:4
 % define the extremeties of the segment in absolute cartesian units
 path = [ 1 0 1; 1 0 0] 
