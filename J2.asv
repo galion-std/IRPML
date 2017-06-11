@@ -1,4 +1,4 @@
-function [ res ] = J(Tref, T,coe,nbr_RBS,ts )
+function [ res ] = J2(Tref, T,ts )
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -8,18 +8,17 @@ w=size(Tref);
 % qref(:,g)=Tref(1,:,g);
 % end
 qref(:)=Tref(:);
+
 cou=0;
 res=0;
-
-v=size(q);
 %keyboard
+v=size(q);
 for m=ts:v(2)
-    
-    cou=cou+abs(coe(nbr_RBS+m))*(q(m)-qref(m))^2;
-    
+    for r=1:w(3)
+    cou=cou+(q(m)-qref(m,r))^2;
+    end
 end
-res=(cou); % convexe form 
-%res=(sqrt(abs(cou)));
+res=cou; % convexe form 
 %keyboard
 end
 

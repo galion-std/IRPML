@@ -4,10 +4,10 @@ close all
 tic;
 %% Initialisation
 K=20;            %number of samples of the set of params
-h=10;            %Eliteness Parameter %hyperparameter
+h=1e-1;            %Eliteness Parameter %hyperparameter
 nbr_iter=5;      %Iteration count
 nbr_RBS=20;      %RBS function count
-alfa=1;       %RBS Fitting param
+alfa=1;          %RBS Fitting param
 learn=1;         %Choice biped/PUMA (1/2)
 %%%%20,10,5,20,e-4,1
 %% Reference Trajectories
@@ -30,7 +30,7 @@ Sigma=diag(V);
 %% PI² Algorithm
 % Generate K sample of the trajectory
 % with different teta vectors
-
+for z=1:s(3)
 for iter=1:nbr_iter
     iter
     if iter ~=1
@@ -42,7 +42,7 @@ T=zeros(K,s(2));
 teta=zeros(K,nbr_RBS);
 for k=1:K 
     teta(k,:)=mvnrnd(mu,Sigma);
-    T(k,:)=exepolicy_RBF(teta(k,:),ref_traj(RL_q_ref,:,1),s(2),alfa);
+    T(k,:)=exepolicy_RBF2(teta(k,:),ref_traj(RL_q_ref,:,z),s(2),alfa);
 end
 %% Plotting trajs:
 t=1:s(2);
@@ -50,6 +50,8 @@ figure(1);
 hold off
 for i=1:K
     plot(t,T(i,:)); 
+    iteration=num2str(iter);
+    title(strcat('Iteration N°',iteration));
     hold on;
 end
 idx=iter;
@@ -67,13 +69,13 @@ for i=1:s(2)
         % J needs be evaluated at each time step i
         som=0;
         for m=i:s(2)
-            som=som+(J2(ref_traj(RL_q_ref,:,:),T(k,:),m));
+            som=som+(J2(ref_traj(RL_q_ref,:,z),T(k,:),m));
         end
         S(i,k)=som;
         
 %% calculating probability
         if k==1
-              alpha=-h; 
+              alpha=h; 
 %         else
 %         alpha = -h*(S(i,k)-min(S(i,1:k)))/...
 %                max(S(i,1:k));
@@ -142,7 +144,7 @@ end
 figure
 qu=num2str(RL_q_ref);
 teta_RL = mvnrnd(mu_new,Sigma); 
-T_RL=exepolicy_RBF(teta_RL,ref_traj(RL_q_ref,:,:),s(2),alfa);
+T_RL=exepolicy_RBF2(teta_RL,ref_traj(RL_q_ref,:,z),s(2),alfa);
 plot(T_RL,'+')
 hold on
 plot(1:s(2),ref_traj(RL_q_ref,:,1),'-') %% TOCHECK 
@@ -150,6 +152,6 @@ hold on
 plot(1:s(2),ref_traj(RL_q_ref,:,2),'-')
 legend('Learned','Reference')
 title (strcat('Reference vs Learned',qu))
-
+end
 %% Execution time
 time_elapsed=toc

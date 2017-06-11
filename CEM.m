@@ -9,7 +9,7 @@ nbr_RBS=20;        % Radial basis functions
 nbr_iter=100;       % Algorithm iterations count
 Ke=5;              % Eliteness parameter
 K=20;              % Smaples count
-alpha=1;%e-10;        % RBF coefficient 
+alpha=1;        % RBF coefficient 
 learn=2;           % Choice biped/PUMA (1/2)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%5,25,5,20,e-4,2
@@ -21,19 +21,21 @@ else
     Tref=permute(q,[3 2 1]);
 end
 s=size(Tref);
-nbr_param=nbr_RBS;%+s(2);
-
+nbr_param=nbr_RBS+s(2);
 
 for RL_q_ref=1:1
-%% Initial Trajectories Sampling  Params
+%% Initial Trajectories Sampling Params
+
 qu=num2str(RL_q_ref);
 filename=strcat('Convergence_q_',qu,'.gif');  
 mu= zeros(nbr_param,1);
 V= rand (1,nbr_param);  
 Sigma=diag(V);
-for RL_q_dem=1:1%s(3)
-%% CEM Iterations
 
+for RL_q_dem=1:s(3)
+
+    
+%% CEM Iterations
 for iter=1:nbr_iter
     if iter~=1
         mu=mu_new;
@@ -41,7 +43,6 @@ for iter=1:nbr_iter
     end
     teta=zeros(K,nbr_param);
     T=zeros(K,s(2));
-     
 for k=1:K 
    
     teta(k,:)=mvnrnd(mu,Sigma);
@@ -54,6 +55,8 @@ figure(1);
 hold off
 for i=1:K
     plot(t,T(i,:)); 
+    iteration=num2str(iter);
+    title(strcat('Iteration N°',iteration));
     hold on;
 end
 idx=iter;
@@ -63,7 +66,7 @@ im{idx} = frame2im(frame);
 %% Iterations 
 cost=zeros(K,1);
 for k=1:K
-    cost(k)=(J(Tref(RL_q_ref,:,RL_q_dem),T(k,:),teta(k,nbr_RBS+1:nbr_param),1));
+    cost(k)=(J(Tref(RL_q_ref,:,RL_q_dem),T(k,:),teta(k,:),nbr_RBS,1));
 end
 
 %% sorting and weighting 
@@ -104,7 +107,7 @@ end
 figure
 qu=num2str(RL_q_ref);
 teta_RL = mvnrnd(mu_new,sigma_new); 
-T_RL=exepolicy_RBF(teta_RL,Tref(RL_q_ref,:,:),s(2),alpha);
+T_RL=exepolicy_RBF(teta_RL,Tref(RL_q_ref,:,RL_q_dem),s(2),alpha);
 plot(T_RL,'+')
 for f=1:s(3)
 hold on

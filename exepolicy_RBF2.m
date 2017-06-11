@@ -1,4 +1,4 @@
-function [ traj ] = exepolicy_RBF( w,ref,traj_step,alpha )
+function [ traj ] = exepolicy_RBF2( w,ref,traj_step,alpha )
 %this function calculate the approximator
 % the policy function with learning parameters
 
@@ -25,5 +25,4 @@ end
 % for t=1:t_center:traj_step
 % traj(ceil(t))=traj(ceil(t))+ref(ceil(t));
 % end
-traj=10^3.*traj
-end
+
