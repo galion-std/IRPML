@@ -18,7 +18,7 @@ for m=ts:v(2)
     cou=cou+(q(m)-qref(m))^2;
     %end
 end
-res=cou; % convexe form 
+res=(1/v(2))*sqrt(cou); % convexe form 
 %keyboard
 end
 

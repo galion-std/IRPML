@@ -23,6 +23,7 @@ w_ind=w_ind+1;
 end
 % %% Centering
 % for t=1:t_center:traj_step
-% traj(ceil(t))=traj(ceil(t))+ref(ceil(t));
+% traj(ceil(t))=ref(ceil(t));
 % end
+traj=traj;
 

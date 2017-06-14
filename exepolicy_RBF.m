@@ -25,5 +25,5 @@ end
 % for t=1:t_center:traj_step
 % traj(ceil(t))=traj(ceil(t))+ref(ceil(t));
 % end
-traj=10^3.*traj;
+traj=10^3.*traj
 end
