@@ -1,7 +1,7 @@
 clc
 clear all
 close all
-
+profile on
 %%%%%%%%%%%%%%%%%%%%
 % Tuning Params
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,7 +118,8 @@ else
 end
 end
 end
-
+profile off
+profile viewer
 %% testing
 % figure
 % qu=num2str(RL_q_ref);

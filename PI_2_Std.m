@@ -1,13 +1,13 @@
 clc
 clear all
 close all
-tic;
+profile on
 %% Initialisation
 K=30;            %number of samples of the set of params
 h=-1;            %Eliteness Parameter %hyperparameter
-nbr_iter=5;      %Iteration count
+nbr_iter=8;      %Iteration count
 nbr_RBS=10;      %RBS function count
-alfa=1e-3;          %RBS Fitting param
+alfa=1e-5;          %RBS Fitting param
 learn=1;         %Choice biped/PUMA (1/2)
 
 %% Reference Trajectories
@@ -30,7 +30,7 @@ Sigma=diag(V);
 %% PI² Algorithm
 % Generate K sample of the trajectory
 % with different teta vectors
-for z=2%s(3)
+for z=1:1%2%s(3)
 for iter=1:nbr_iter
     iter
     if iter ~=1
@@ -54,7 +54,7 @@ for i=1:K
     title(strcat('Iteration N°',iteration));
     hold on;
 end
-idx=iter;
+idx=iter+nbr_iter*(-1+z);
 frame = getframe(gcf);
 im{idx} = frame2im(frame);
 
@@ -129,7 +129,7 @@ end
 
 
 %% Generating the animated gif of the converging trajectories
-for idx=1:nbr_iter
+for idx=1:nbr_iter%*s(3)
     [A,map] = rgb2ind(im{idx},256);
 if idx == 1
     imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
@@ -145,8 +145,8 @@ qu=num2str(RL_q_ref);
 teta_RL = mvnrnd(mu_new,Sigma_new); 
 T_RL=exepolicy_RBF2(teta_RL,ref_traj(RL_q_ref,:,z),s(2),alfa);
 plot(T_RL,'+')
-hold on
-plot(1:s(2),ref_traj(RL_q_ref,:,1),'-') %% TOCHECK 
+% hold on
+% plot(1:s(2),ref_traj(RL_q_ref,:,1),'-') %% TOCHECK 
 hold on
 plot(1:s(2),ref_traj(RL_q_ref,:,2),'-')
 legend('Learned','Reference')
@@ -154,4 +154,5 @@ title (strcat('Reference vs Learned',qu))
 
 
 %% Execution time
-time_elapsed=toc
+profile off
+profile viewer

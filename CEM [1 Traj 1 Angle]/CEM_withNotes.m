@@ -1,14 +1,15 @@
 clc
 clear all
 close all
+profile on
 %%%%%%%%%%%%%%%%%%%%
 % Tuning Params
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-nbr_RBS=80;        % Radial basis functions
+nbr_RBS=10;        % Radial basis functions
 RL_q_ref=4;       % Reference Joint Number
 nbr_iter=30;     % Algorithm iterations count
-Ke=10;             % Elitness parameter
-K=20;             % Smaples count
+Ke=5;             % Elitness parameter
+K=30;             % Smaples count
 alpha=0.0001;          % RBF coefficient 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 filename='Convergence.gif';
@@ -120,3 +121,5 @@ hold on
 plot(1:s(2),Tref(RL_q_ref,:),'-')
 legend('Learned','Reference')
 title ('Reference vs Learned')
+
+profile viewer
